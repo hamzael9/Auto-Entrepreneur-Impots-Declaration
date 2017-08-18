@@ -1,5 +1,6 @@
 var currentYear = new Date().getFullYear();
 var currentMonth = new Date().getMonth() + 1;
+currentMonth = 4;
 
 console.log('Current Date : ' + currentMonth + ' - ' + currentYear );
 
@@ -30,6 +31,7 @@ function CalculImpotLiberatoire(chiffreAffaire, taux)
 function CalculMoisDeRetard(trimestre, nbrAnnees)
 {
     var currentTrimestre = getCurrentTrimestre();
+    console.log('Current Trimestre : ' + currentTrimestre);
 
     var valid = ( currentTrimestre > trimestre ) || ( (currentTrimestre <= trimestre) && nbrAnnees > 0);
 
@@ -94,13 +96,8 @@ function CalculPenaliteEtMajoration(impotLiberatoire, trimestre, nbrAnnees)
     return ret;
 }
 
-// taux = 0.02 , trimestre = 1, annee = 2015
-function CalculDroitsDus( chiffreAffaire, taux, trimestre, annee )
+function DisplayResults(impotLiberatoire, trimestre, nbrAnnees, penalites)
 {
-    var impotLiberatoire = CalculImpotLiberatoire(chiffreAffaire, taux);
-    var nbrAnnees = currentYear - annee;
-    var penalites = CalculPenaliteEtMajoration(impotLiberatoire, trimestre, nbrAnnees);
-
     console.log('DroitsDus pour le trimestre T' + trimestre + ' = ');
     console.log('\t Montant Impot Liberatoire = ' + impotLiberatoire );
     console.log('\t Penalite et majorations = ' );
@@ -110,11 +107,26 @@ function CalculDroitsDus( chiffreAffaire, taux, trimestre, annee )
 
     var totalDroitsDus = impotLiberatoire + penalites.majoration + penalites.penalite + penalites.retard;
     console.log('Total des droits dus : ' + totalDroitsDus );
+
+}
+
+// taux = 0.02 , trimestre = 1, annee = 2015
+function CalculDroitsDus( chiffreAffaire, taux, trimestre, annee )
+{
+    var impotLiberatoire = CalculImpotLiberatoire(chiffreAffaire, taux);
+    var nbrAnnees = currentYear - annee;
+    var penalites = CalculPenaliteEtMajoration(impotLiberatoire, trimestre, nbrAnnees);
+
+    DisplayResults(impotLiberatoire, trimestre, nbrAnnees, penalites);
+
 }
 
 
+CalculDroitsDus(10000,0.02,4,2016);
 //console.log(CalculMoisDeRetard(1, 1) );
+/*
 CalculDroitsDus(25000, 0.02, '3', 2016);
 CalculDroitsDus(31650, 0.02, '2', 2017);
 CalculDroitsDus(16800, 0.02, '3', 2017);
 CalculDroitsDus(8400, 0.02, '3', 2017);
+*/
